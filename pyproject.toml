@@ -1,0 +1,48 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "durak-game"
+version = "0.1.0"
+description = "Durak card game for the MIPT Python Development Practice course"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+
+[project.scripts]
+durak = "durak_game.__main__:main"
+
+[tool.setuptools]
+# Our game lives in src/durak_game; the course module stays in durak_bot/ (unchanged).
+package-dir = { "" = "src", "durak_bot" = "durak_bot" }
+packages = ["durak_game", "durak_bot"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src", "."]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py313"  # keeps "except (A, B):" in the familiar form
+extend-exclude = ["durak_bot", "bots"]  # course code, kept unchanged
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "SIM", "N", "D", "RUF"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.isort]
+known-first-party = ["durak_game", "durak_bot"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["D"]
+
+[tool.mypy]
+strict = true
+files = ["src/durak_game"]
+follow_imports = "silent"
